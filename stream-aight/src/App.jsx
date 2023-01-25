@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+// Axios
+import axios from "axios";
+
 // Helmet
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -10,12 +13,13 @@ function App() {
   const [data, setData] = useState("");
   const [text, setText] = useState([]);
 
-  const handleMovieSearch = () => {
+  const handleMovieSearch = (event) => {
+    event.preventDefault();
     axios
       .post("http://localhost:5000/api", { body: text })
       .then((res) => {
-        console.log(res.data.data);
-        setData(res.data.data);
+        console.log(res.data);
+        setData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -66,7 +70,8 @@ function App() {
                 type="text"
                 name="title"
                 placeholder="Billions, Super Pumped, Ballers.."
-                onChange={(e) => setText(e.target.text)}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               />
               <button
                 className="bg-neutral-800 text-white rounded-bl-none rounded-tl-none"
@@ -77,11 +82,7 @@ function App() {
             </form>
           </div>
           <div className="flex justify-center">
-            <p className="my-2">
-              <ul className="list-disc">
-                <li>{data.data}</li>
-              </ul>
-            </p>
+            <p className="my-2">{data.data}</p>
           </div>
         </main>
         <footer>
