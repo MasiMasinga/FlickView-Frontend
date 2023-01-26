@@ -4,4 +4,4 @@ The ultimate movie and show recommendation web app. Powered by OpenAI's state-of
 
 ## Architecture
 
-(https://docs.aws.amazon.com/images/prescriptive-guidance/latest/patterns/images/pattern-img/970a9d13-e8a2-44ac-aca5-a066e4be60e8/images/a70cd957-0a03-40f8-aa63-1e4e28d82c9c.png)
+![a70cd957-0a03-40f8-aa63-1e4e28d82c9c](https://user-images.githubusercontent.com/51009658/214845495-c39c1a25-de32-4014-bf16-9f6e01a13f12.png)
