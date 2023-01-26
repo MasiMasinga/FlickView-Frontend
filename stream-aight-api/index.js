@@ -19,11 +19,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 app.post("/api", (req, res) => {
-
   const body = `Please recommend a list of movies and tv shows based on 
-  these last few shows I have watched "${req.body.body}". Ensure its just a ordered list with bullets next to each title, 
+  these last few shows I have watched "${req.body.body}". Ensure it's just a ordered list with bullets next to each title, 
   with no sub header or title and don't provide any explanations or conclusions to the response?`;
-  
+
   console.log(body);
 
   openai
