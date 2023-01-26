@@ -29,7 +29,7 @@ function App() {
   return (
     <HelmetProvider>
       <Helmet>
-        <title>Hello World</title>
+        <title>Stream AI-ght</title>
         <link rel="canonical" href="https://www.stream-aight.ai/" />
       </Helmet>
       <div>
