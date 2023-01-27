@@ -16,7 +16,7 @@ function App() {
   const handleMovieSearch = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/api", { body: text })
+      .post("https://stream-aight-api.onrender.com/api", { body: text })
       .then((res) => {
         console.log(res.data);
         setData(res.data);
