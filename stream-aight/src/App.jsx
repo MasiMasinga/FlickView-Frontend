@@ -1,5 +1,20 @@
 import React, { useState } from "react";
 
+// Mui
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Input from "@mui/material/Input";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
+// Mui Icons
+import SearchIcon from "@mui/icons-material/Search";
+
 // Axios
 import axios from "axios";
 
@@ -32,76 +47,95 @@ function App() {
         <title>Stream AI-ght</title>
         <link rel="canonical" href="https://www.stream-aight.ai/" />
       </Helmet>
-      <div className="mx-auto w-screen px-6 relative">
-        <div className="py-4">
-          <div className="flex justify-start">
-            <a href="/">
-              <img
-                src={StreamAILogo}
-                className="h-36 w-auto"
-                alt="Stream AIght Logo"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
+      <Stack sx={{ height: "100vh", width: "100vw" }}>
+        <Stack sx={{ mt: 2 }}>
+          <Stack sx={{ mx: 5 }}>
+            <CardMedia
+              component="img"
+              image={StreamAILogo}
+              alt="Stream AIght Logo"
+              sx={{ height: 150, width: 150 }}
+            />
+          </Stack>
+        </Stack>
 
-      <div className="flex justify-center">
-        <div className="w-2/4	border border-black-800" />
-      </div>
+        <Divider sx={{ width: "50%", alignSelf: "center" }} />
 
-      <main className="mb-80">
-        <div className="container mx-auto m-12">
-          <h1 className="font-sans text-3xl font-bold text-center mb-4">
+        <Container sx={{ mt: 5 }}>
+          <Typography
+            variant="h5"
+            align="center"
+            component="h1"
+            gutterBottom
+            sx={{ fontWeight: "bold" }}
+          >
             Let AI find your next movie or show
-          </h1>
-          <p className="font-sans text-lg text-center px-24">
+          </Typography>
+
+          <Typography
+            variant="body2"
+            align="center"
+            gutterBottom
+            sx={{ px: { xs: 0, md: 30 } }}
+          >
             Enter the title of the movies or shows you last watched and enjoyed.
             Please separate each title with a comma. The more titles you add to
             the list, the better the recommendations.
-          </p>
-          <form
-            className="flex justify-center mt-8"
-            onSubmit={handleMovieSearch}
-          >
-            <input
-              className="p-2.5 w-2/5 border-2 border-black-600 rounded-tl-md	rounded-bl-md rounded-tr-none	rounded-br-none"
-              type="text"
-              name="title"
-              placeholder="Breaking Bad, Narcos, Snowfall.."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <button
-              className="bg-neutral-800 text-white rounded-bl-none rounded-tl-none"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-        </div>
-        <div className="flex justify-center">
-          <ul className="my-2">
-            <li className="px-60">{data.data}</li>
-          </ul>
-        </div>
-      </main>
-      <footer className="p-6">
-        <div className="flex justify-center">
-          <div className="w-2/4	border border-black-800" />
-        </div>
-        <div className="p-4 m-4 flex justify-center">
-          <p>
-            Built by:
-            <a
-              href="https://masimasinga.netlify.app/"
-              className="text-stone-800 mx-1"
-            >
-              Masi
-            </a>
-          </p>
-        </div>
-      </footer>
+          </Typography>
+
+          <Stack direction="row" justifyContent="center">
+            <Stack sx={{ my: 3, px: 10, width: {xs: '100%', md: "50%"} }}>
+              <FormControl fullWidth sx={{ my: 1 }}>
+                <InputLabel htmlFor="outlined-adornment-amount">
+                  Search
+                </InputLabel>
+                <OutlinedInput
+                  startAdornment={<SearchIcon />}
+                  label="Search"
+                  placeholder="Breaking Bad, Narcos, Snowfall.."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+              </FormControl>
+              <Stack>
+                <Button
+                  onClick={handleMovieSearch}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#213547",
+                    borderColor: "#213547",
+                    ":hover": { bgcolor: "#213547", borderColor: "#213547" },
+                  }}
+                >
+                  Search
+                </Button>
+              </Stack>
+            </Stack>
+          </Stack>
+
+          <Stack direction="row" justifyContent="center">
+            <Stack sx={{ my: 2, px: 10, width: "50%" }}>
+              <Typography
+                variant="h6"
+                align="center"
+                component="h1"
+                gutterBottom
+              >
+                {data.data}
+              </Typography>
+            </Stack>
+          </Stack>
+        </Container>
+
+        <Divider sx={{ width: "50%", alignSelf: "center", pb: 5 }} />
+
+        <Stack sx={{ py: 5 }}>
+          <Typography variant="h6" align="center" component="h1" gutterBottom>
+            Built by{" "}
+            <a href="https://www.linkedin.com/in/andrew-oliver-/">Masi</a>
+          </Typography>
+        </Stack>
+      </Stack>
     </HelmetProvider>
   );
 }
