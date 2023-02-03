@@ -84,7 +84,7 @@ function App() {
           </Typography>
 
           <Stack direction="row" justifyContent="center">
-            <Stack sx={{ my: 3, px: 10, width: {xs: '100%', md: "50%"} }}>
+            <Stack sx={{ my: 3, px: 10, width: { xs: "100%", md: "50%" } }}>
               <FormControl fullWidth sx={{ my: 1 }}>
                 <InputLabel htmlFor="outlined-adornment-amount">
                   Search
