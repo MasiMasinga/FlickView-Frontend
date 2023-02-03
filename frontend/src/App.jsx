@@ -132,7 +132,7 @@ function App() {
         <Stack sx={{ py: 5 }}>
           <Typography variant="h6" align="center" component="h1" gutterBottom>
             Built by{" "}
-            <a href="https://www.linkedin.com/in/andrew-oliver-/">Masi</a>
+            <a href="https://www.linkedin.com/in/masibonge-masinga-a4282a10b/">Masi</a>
           </Typography>
         </Stack>
       </Stack>
