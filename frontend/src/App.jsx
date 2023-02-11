@@ -2,15 +2,13 @@ import React, { useState } from "react";
 
 // Mui
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Input from "@mui/material/Input";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // Mui Icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,19 +19,26 @@ import axios from "axios";
 // Helmet
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
+// Components
+import Button from "./components/Button";
+import Typography from "./components/Typography";
+import Divider from "./components/Divider";
+
 // Images
 import StreamAILogo from "./assets/images/stream-ai-ght-transparent.png";
 
 function App() {
   const [data, setData] = useState("");
   const [text, setText] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleMovieSearch = (event) => {
     event.preventDefault();
+    setLoading(true);
     axios
       .post("https://stream-aight-api.onrender.com/api", { body: text })
       .then((res) => {
-        console.log(res.data);
+        setLoading(false);
         setData(res.data);
       })
       .catch((err) => {
@@ -45,37 +50,32 @@ function App() {
     <HelmetProvider>
       <Helmet>
         <title>Stream AI-ght</title>
-        <link rel="canonical" href="https://www.stream-aight.ai/" />
+        <link
+          rel="canonical"
+          href="https://http://streamaight.s3-website-us-east-1.amazonaws.com/"
+        />
       </Helmet>
       <Stack sx={{ height: "100vh", width: "100vw" }}>
-        <Stack sx={{ mt: 2 }}>
-          <Stack sx={{ mx: 5 }}>
-            <CardMedia
-              component="img"
-              image={StreamAILogo}
-              alt="Stream AIght Logo"
-              sx={{ height: 150, width: 150 }}
-            />
-          </Stack>
+        <Stack sx={{ mx: 5 }}>
+          <CardMedia
+            component="img"
+            image={StreamAILogo}
+            alt="Stream AIght Logo"
+            sx={{ height: 100, width: 150 }}
+          />
         </Stack>
 
-        <Divider sx={{ width: "50%", alignSelf: "center" }} />
+        <Divider />
 
-        <Container sx={{ mt: 5 }}>
-          <Typography
-            variant="h5"
-            align="center"
-            component="h1"
-            gutterBottom
-            sx={{ fontWeight: "bold" }}
-          >
+        <Container sx={{ my: 5 }}>
+          <Typography variant="h5" align="center" component="h1" mb bold>
             Let AI find your next movie or show
           </Typography>
 
           <Typography
             variant="body2"
             align="center"
-            gutterBottom
+            mb
             sx={{ px: { xs: 0, md: 30 } }}
           >
             Enter the title of the movies or shows you last watched and enjoyed.
@@ -98,41 +98,32 @@ function App() {
                 />
               </FormControl>
               <Stack>
-                <Button
-                  onClick={handleMovieSearch}
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#213547",
-                    borderColor: "#213547",
-                    ":hover": { bgcolor: "#213547", borderColor: "#213547" },
-                  }}
-                >
-                  Search
-                </Button>
+                <Button onClick={handleMovieSearch} title="Search" />
               </Stack>
             </Stack>
           </Stack>
 
           <Stack direction="row" justifyContent="center">
-            <Stack sx={{ my: 2, px: 10, width: "50%" }}>
-              <Typography
-                variant="h6"
-                align="center"
-                component="h1"
-                gutterBottom
-              >
-                {data.data}
-              </Typography>
-            </Stack>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <Stack sx={{ my: 2, px: 10, width: "50%" }}>
+                <Typography variant="h6" align="center">
+                  {data.data}
+                </Typography>
+              </Stack>
+            )}
           </Stack>
         </Container>
 
-        <Divider sx={{ width: "50%", alignSelf: "center", pb: 5 }} />
+        <Divider sx={{ width: "50%", alignSelf: "center", pb: 3 }} />
 
         <Stack sx={{ py: 5 }}>
-          <Typography variant="h6" align="center" component="h1" gutterBottom>
-            Built by{" "}
-            <a href="https://www.linkedin.com/in/masibonge-masinga-a4282a10b/">Masi</a>
+          <Typography variant="h6" align="center">
+            Built by{""}
+            <a href="https://www.linkedin.com/in/masibonge-masinga-a4282a10b/">
+              Masi
+            </a>
           </Typography>
         </Stack>
       </Stack>
