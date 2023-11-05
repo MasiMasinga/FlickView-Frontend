@@ -29,10 +29,11 @@ export const StateProvider = ({ children }) => {
         }
     }, [notificationMessage, enqueueSnackbar]);
 
+
+    let value = { setNotificationMessage, breadcrumbs, setBreadcrumbs }
+
     return (
-        <StateContext.Provider
-            value={{ setNotificationMessage, breadcrumbs, setBreadcrumbs }}
-        >
+        <StateContext.Provider value={value}>
             {children}
         </StateContext.Provider>
     );

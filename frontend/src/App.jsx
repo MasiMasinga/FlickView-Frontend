@@ -7,6 +7,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { StateProvider } from "./common/context/StateContext";
 import { AuthProvider } from "./common/context/AuthContext";
 
+// React Helmet
+import { HelmetProvider } from "react-helmet-async";
+
 // Snackbar
 import { SnackbarProvider } from "notistack";
 
@@ -19,13 +22,15 @@ import PageRoutes from "./routes/routes";
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <SnackbarProvider maxSnack={3}>
-                <StateProvider>
-                    <AuthProvider>
-                        <PageRoutes />
-                    </AuthProvider>
-                </StateProvider>
-            </SnackbarProvider>
+            <HelmetProvider>
+                <SnackbarProvider maxSnack={3}>
+                    <StateProvider>
+                        <AuthProvider>
+                            <PageRoutes />
+                        </AuthProvider>
+                    </StateProvider>
+                </SnackbarProvider>
+            </HelmetProvider>
         </ThemeProvider>
     );
 }
