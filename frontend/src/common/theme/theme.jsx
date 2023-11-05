@@ -65,7 +65,7 @@ theme.typography = {
     },
     h2: {
         fontWeight: 700,
-        fontSize: "50px",
+        fontSize: "72px",
         fontFamily: ThemeFontFamily,
     },
     h3: {
@@ -173,19 +173,28 @@ theme.components = {
                 fontWeight: "700",
                 height: "fit-contents",
                 ...(ownerState.variant === "contained" && {
-                    backgroundColor: Colors.accent,
+                    backgroundColor: Colors.primary,
                     color: theme.palette.primary.contrastText,
-                    border: `2px solid ${Colors.accent}`,
+                    border: `2px solid ${Colors.primary}`,
                     "&:hover": {
                         backgroundColor: Colors.primary,
                         border: `2px solid ${Colors.primary}`,
                     },
                 }),
+                ...(ownerState.variant === "secondary" && {
+                    backgroundColor: Colors.white,
+                    color: Colors.primary,
+                    "&:hover": {
+                        backgroundColor: Colors.white,
+                    },
+                }),
                 ...(ownerState.variant === "outlined" && {
                     border: `2px solid ${Colors.accent}`,
+                    backgroundColor: Colors.accent,
+                    color: Colors.white,
                     "&:hover": {
                         backgroundColor: Colors.accent,
-                        color: theme.palette.primary.contrastText,
+                        color: Colors.white,
                         border: `2px solid ${Colors.accent}`,
                     },
                 }),
@@ -206,7 +215,7 @@ theme.components = {
                 props: { variant: "plain" },
                 style: {
                     backgroundColor: "transparent",
-                    color: Colors.accent,
+                    color: Colors.primary,
                 },
             },
             {

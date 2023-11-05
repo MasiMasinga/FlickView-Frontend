@@ -35,8 +35,7 @@ const Typography = ({
                     mr: 2,
                 }),
                 ...(bold && {
-                    fontWeight: 900,
-                    color: "black",
+                    fontWeight: 700,
                 }),
                 ...sx,
             }}

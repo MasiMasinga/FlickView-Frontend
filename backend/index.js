@@ -1,51 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const app = express();
-const PORT = 6000;
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
-const { Configuration, OpenAIApi } = require("openai");
-require("dotenv").config();
+async function main() {
+  try {
+    await prisma.$connect();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(cors());
+    await prisma.user.create({
+      data: {},
+    });
 
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+    await prisma.user.create({
+      data: {},
+    });
 
-const openai = new OpenAIApi(configuration);
+    const users = await prisma.user.findMany();
+    console.dir(users, { depth: users });
+  } catch (error) {
+    console.log(error);
+    console.log("keys: ", Object.keys(error));
+    console.log("error.errorCode: ", error.errorCode);
+    console.log("error.code: ", error.code);
+    console.error(JSON.stringify(error, null, 2));
+  }
+}
 
-app.post("/api", (req, res) => {
-    const body = `Please recommend a list of movies and tv shows based on 
-  these last few shows I have watched "${req.body.body}". 
-  Ensure it's just a ordered list with bullets next to each title, 
-  with no sub header or title and don't provide any explanations or 
-  conclusions to the response?`;
-
-    console.log(body);
-
-    openai
-        .createCompletion({
-            model: "text-davinci-003",
-            prompt: body,
-            temperature: 0.8,
-            max_tokens: 250,
-            frequency_penalty: 0.7,
-        })
-        .then((completion) => {
-            console.log(completion.data.choices[0].text);
-            res.send({ data: completion.data.choices[0].text });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.send({ message: "Unfortunately a Technical Error Occurred" });
-        });
-});
-
-app.listen(PORT, () => {
-    console.log("Stream AI-ight Server");
-    console.log(`🚀Server Started on PORT ${PORT}`);
-});
+main()
+  .catch(console.error)
+  .finally(() => prisma.$disconnect());

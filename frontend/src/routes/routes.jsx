@@ -10,6 +10,7 @@ const AsyncLogin = lazy(() => import("../pages/auth/login/index"));
 const AsyncRegister = lazy(() => import("../pages/auth/register/index"));
 const AsyncDashboard = lazy(() => import("../pages/dashboard/index"));
 const AsyncHome = lazy(() => import("../pages/home/index"));
+const AsyncPricing = lazy(() => import("../pages/pricing/index"));
 
 // Components
 import Loader from "../common/components/Loader";
@@ -47,6 +48,14 @@ const PageRoutes = () => {
                     element={
                         <Suspense fallback={<Loader fullscreen={true} />}>
                             <AsyncHome />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/pricing"
+                    element={
+                        <Suspense fallback={<Loader fullscreen={true} />}>
+                            <AsyncPricing />
                         </Suspense>
                     }
                 />

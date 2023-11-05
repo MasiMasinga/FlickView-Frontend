@@ -21,7 +21,7 @@ import Typography from "../../common/components/Typography";
 import Divider from "../../common/components/Divider";
 
 // Images
-import StreamAILogo from "./assets/images/stream-ai-ght-transparent.png";
+import StreamAILogo from "../../assets/images/stream-ai-ght-transparent.png";
 
 
 const Dashboard = () => {
