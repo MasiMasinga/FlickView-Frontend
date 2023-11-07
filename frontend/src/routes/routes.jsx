@@ -8,6 +8,8 @@ const AsyncPageNotFound = lazy(() => import("../common/router/PageNotFound"));
 const AsyncDashboardLayout = lazy(() => import("../common/layout/DashboardLayout"));
 const AsyncLogin = lazy(() => import("../pages/auth/login/index"));
 const AsyncRegister = lazy(() => import("../pages/auth/register/index"));
+const AsyncForgotPassword = lazy(() => import("../pages/auth/forgotPassword/index"));
+const AsyncResetPassword = lazy(() => import("../pages/auth/resetPassword/index"));
 const AsyncDashboard = lazy(() => import("../pages/dashboard/index"));
 const AsyncHome = lazy(() => import("../pages/home/index"));
 const AsyncPricing = lazy(() => import("../pages/pricing/index"));
@@ -72,6 +74,22 @@ const PageRoutes = () => {
                     element={
                         <Suspense fallback={<Loader fullscreen={true} />}>
                             <AsyncRegister />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/forgot-password"
+                    element={
+                        <Suspense fallback={<Loader fullscreen={true} />}>
+                            <AsyncForgotPassword />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/reset-password"
+                    element={
+                        <Suspense fallback={<Loader fullscreen={true} />}>
+                            <AsyncResetPassword />
                         </Suspense>
                     }
                 />
