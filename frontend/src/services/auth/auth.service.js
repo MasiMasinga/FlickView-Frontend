@@ -43,6 +43,42 @@ export const logout = async (data) => {
     if (!isBrowser) return false;
 
     return await api
+        .post(`/login/`, data)
+        .then(function (response) {
+            if (response.status === 200) {
+                return {
+                    status: true,
+                    data: response.data,
+                };
+            }
+        })
+        .catch(function (error) {
+            return handleError(error);
+        });
+};
+
+export const forgotPassword = async (data) => {
+    if (!isBrowser) return false;
+
+    return await api
+        .post(`/logout/`, data)
+        .then(function (response) {
+            if (response.status === 201) {
+                return {
+                    status: true,
+                    data: response.data,
+                };
+            }
+        })
+        .catch(function (error) {
+            return handleError(error);
+        });
+};
+
+export const resetPassword = async (data) => {
+    if (!isBrowser) return false;
+
+    return await api
         .post(`/logout/`, data)
         .then(function (response) {
             if (response.status === 201) {
@@ -61,6 +97,8 @@ const AuthService = {
     register,
     login,
     logout,
+    forgotPassword,
+    resetPassword,
 };
 
 export default AuthService;

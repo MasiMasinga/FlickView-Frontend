@@ -26,5 +26,8 @@ export const ValidationMessages = {
     invalidEmail: "Invalid Email",
     passwordTooShort: "Password is too short (minimum 6 characters)",
     passwordNotMatch: "Passwords not match",
-    isLessThanEndYear: "Start year cannot be greater than end year",
+};
+
+export const NotificationMessages = {
+    genericErrorMessage: "Something went wrong. Please try again later.",
 };
