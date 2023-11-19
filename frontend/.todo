@@ -1,0 +1,3 @@
+[x] Explore by Mood: Implement a feature that allows users to filter movie recommendations based on their current mood, such as "feel-good," "thrilling," or "romantic.".
+[x] Watchlist Management: Enable users to create and manage watchlist, helping them keep track of movies they intend to watch in the future.
+[x] Community Recommendations: Implement a feature where users can see movie recommendations made by other users who have similar taste in films. Users can follow others with similar preferences, and this can help create a sense of community and provide more diverse movie suggestions. You could also have a "Trending Recommendations" section that showcases the most popular recommendations from the community.

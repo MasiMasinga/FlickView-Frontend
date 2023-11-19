@@ -2,34 +2,159 @@ import React, { useState } from "react";
 
 // Mui
 import Stack from "@mui/material/Stack";
-import Container from "@mui/material/Container";
-import CardMedia from "@mui/material/CardMedia";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import CircularProgress from "@mui/material/CircularProgress";
-
-// Mui Icons
-import SearchIcon from "@mui/icons-material/Search";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import Autocomplete from '@mui/material/Autocomplete';
 
 // Helmet
 import { Helmet } from "react-helmet-async";
 
 // Components
+import Typography from '../../common/components/Typography'
 import Button from "../../common/components/Button";
-import Typography from "../../common/components/Typography";
-import Divider from "../../common/components/Divider";
+import ContentBlock from '../../common/components/ContentBlock'
+import InputField from '../../common/components/InputField'
 
-// Images
-import StreamAILogo from "../../assets/images/stream-ai-ght-transparent.png";
+// Utils
+import { Colors } from "../../common/utils/constants";
+import Tabs from "../../common/components/Tabs";
+import TabPanel from "../../common/components/TabPanel";
+import Watchlist from "./containers/Watchlist";
+import NewMovie from "./containers/NewMovie";
 
+const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 },
+    { title: 'The Dark Knight', year: 2008 },
+    { title: '12 Angry Men', year: 1957 },
+    { title: "Schindler's List", year: 1993 },
+    { title: 'Pulp Fiction', year: 1994 },
+    {
+        title: 'The Lord of the Rings: The Return of the King',
+        year: 2003,
+    },
+    { title: 'The Good, the Bad and the Ugly', year: 1966 },
+    { title: 'Fight Club', year: 1999 },
+    {
+        title: 'The Lord of the Rings: The Fellowship of the Ring',
+        year: 2001,
+    },
+    {
+        title: 'Star Wars: Episode V - The Empire Strikes Back',
+        year: 1980,
+    },
+    { title: 'Forrest Gump', year: 1994 },
+    { title: 'Inception', year: 2010 },
+    {
+        title: 'The Lord of the Rings: The Two Towers',
+        year: 2002,
+    },
+    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+    { title: 'Goodfellas', year: 1990 },
+    { title: 'The Matrix', year: 1999 },
+    { title: 'Seven Samurai', year: 1954 },
+    {
+        title: 'Star Wars: Episode IV - A New Hope',
+        year: 1977,
+    },
+    { title: 'City of God', year: 2002 },
+    { title: 'Se7en', year: 1995 },
+    { title: 'The Silence of the Lambs', year: 1991 },
+    { title: "It's a Wonderful Life", year: 1946 },
+    { title: 'Life Is Beautiful', year: 1997 },
+    { title: 'The Usual Suspects', year: 1995 },
+    { title: 'Léon: The Professional', year: 1994 },
+    { title: 'Spirited Away', year: 2001 },
+    { title: 'Saving Private Ryan', year: 1998 },
+    { title: 'Once Upon a Time in the West', year: 1968 },
+    { title: 'American History X', year: 1998 },
+    { title: 'Interstellar', year: 2014 },
+    { title: 'Casablanca', year: 1942 },
+    { title: 'City Lights', year: 1931 },
+    { title: 'Psycho', year: 1960 },
+    { title: 'The Green Mile', year: 1999 },
+    { title: 'The Intouchables', year: 2011 },
+    { title: 'Modern Times', year: 1936 },
+    { title: 'Raiders of the Lost Ark', year: 1981 },
+    { title: 'Rear Window', year: 1954 },
+    { title: 'The Pianist', year: 2002 },
+    { title: 'The Departed', year: 2006 },
+    { title: 'Terminator 2: Judgment Day', year: 1991 },
+    { title: 'Back to the Future', year: 1985 },
+    { title: 'Whiplash', year: 2014 },
+    { title: 'Gladiator', year: 2000 },
+    { title: 'Memento', year: 2000 },
+    { title: 'The Prestige', year: 2006 },
+    { title: 'The Lion King', year: 1994 },
+    { title: 'Apocalypse Now', year: 1979 },
+    { title: 'Alien', year: 1979 },
+    { title: 'Sunset Boulevard', year: 1950 },
+    {
+        title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
+        year: 1964,
+    },
+    { title: 'The Great Dictator', year: 1940 },
+    { title: 'Cinema Paradiso', year: 1988 },
+    { title: 'The Lives of Others', year: 2006 },
+    { title: 'Grave of the Fireflies', year: 1988 },
+    { title: 'Paths of Glory', year: 1957 },
+    { title: 'Django Unchained', year: 2012 },
+    { title: 'The Shining', year: 1980 },
+    { title: 'WALL·E', year: 2008 },
+    { title: 'American Beauty', year: 1999 },
+    { title: 'The Dark Knight Rises', year: 2012 },
+    { title: 'Princess Mononoke', year: 1997 },
+    { title: 'Aliens', year: 1986 },
+    { title: 'Oldboy', year: 2003 },
+    { title: 'Once Upon a Time in America', year: 1984 },
+    { title: 'Witness for the Prosecution', year: 1957 },
+    { title: 'Das Boot', year: 1981 },
+    { title: 'Citizen Kane', year: 1941 },
+    { title: 'North by Northwest', year: 1959 },
+    { title: 'Vertigo', year: 1958 },
+    {
+        title: 'Star Wars: Episode VI - Return of the Jedi',
+        year: 1983,
+    },
+    { title: 'Reservoir Dogs', year: 1992 },
+    { title: 'Braveheart', year: 1995 },
+    { title: 'M', year: 1931 },
+    { title: 'Requiem for a Dream', year: 2000 },
+    { title: 'Amélie', year: 2001 },
+    { title: 'A Clockwork Orange', year: 1971 },
+    { title: 'Like Stars on Earth', year: 2007 },
+    { title: 'Taxi Driver', year: 1976 },
+    { title: 'Lawrence of Arabia', year: 1962 },
+    { title: 'Double Indemnity', year: 1944 },
+    {
+        title: 'Eternal Sunshine of the Spotless Mind',
+        year: 2004,
+    },
+    { title: 'Amadeus', year: 1984 },
+    { title: 'To Kill a Mockingbird', year: 1962 },
+    { title: 'Toy Story 3', year: 2010 },
+    { title: 'Logan', year: 2017 },
+    { title: 'Full Metal Jacket', year: 1987 },
+    { title: 'Dangal', year: 2016 },
+    { title: 'The Sting', year: 1973 },
+    { title: '2001: A Space Odyssey', year: 1968 },
+    { title: "Singin' in the Rain", year: 1952 },
+    { title: 'Toy Story', year: 1995 },
+    { title: 'Bicycle Thieves', year: 1948 },
+    { title: 'The Kid', year: 1921 },
+    { title: 'Inglourious Basterds', year: 2009 },
+    { title: 'Snatch', year: 2000 },
+    { title: '3 Idiots', year: 2009 },
+    { title: 'Monty Python and the Holy Grail', year: 1975 },
+];
 
 const Dashboard = () => {
-    const [data, setData] = useState("");
-    const [text, setText] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState(0);
 
-    const handleMovieSearch = (event) => { };
+    const handleChange = (event, newValue) => {
+        setActiveTab(newValue);
+    };
 
     return (
         <>
@@ -40,78 +165,57 @@ const Dashboard = () => {
                     href="https://http://streamaight.s3-website-us-east-1.amazonaws.com/"
                 />
             </Helmet>
-            <Stack sx={{ height: "100vh", width: "100vw" }}>
-                <Stack sx={{ mx: 5 }}>
-                    <CardMedia
-                        component="img"
-                        image={StreamAILogo}
-                        alt="Stream AIght Logo"
-                        sx={{ height: 100, width: 150 }}
-                    />
-                </Stack>
-
-                <Divider />
-
-                <Container sx={{ my: 5 }}>
-                    <Typography variant="h5" align="center" component="h1" mb bold>
-                        Let AI find your next movie or show
-                    </Typography>
-
-                    <Typography
-                        variant="body2"
-                        align="center"
-                        mb
-                        sx={{ px: { xs: 0, md: 30 } }}
-                    >
-                        Enter the title of the movies or shows you last watched and enjoyed.
-                        Please separate each title with a comma. The more titles you add to
-                        the list, the better the recommendations.
-                    </Typography>
-
-                    <Stack direction="row" justifyContent="center">
-                        <Stack sx={{ my: 3, px: 10, width: { xs: "100%", md: "50%" } }}>
-                            <FormControl fullWidth sx={{ my: 1 }}>
-                                <InputLabel htmlFor="outlined-adornment-amount">
-                                    Search
-                                </InputLabel>
-                                <OutlinedInput
-                                    startAdornment={<SearchIcon />}
-                                    label="Search"
-                                    placeholder="Breaking Bad, Narcos, Snowfall.."
-                                    value={text}
-                                    onChange={(e) => setText(e.target.value)}
-                                />
-                            </FormControl>
-                            <Stack>
-                                <Button onClick={handleMovieSearch} title="Search" />
-                            </Stack>
+            <Grid container >
+                <Grid item xs={12} md={4}>
+                    <ContentBlock>
+                        <Stack spacing={1} sx={{ p: 3 }}>
+                            <Typography bold variant="subheader" color={Colors.primary}>
+                                Search for your next movie here
+                            </Typography>
+                            <Divider />
+                            <Typography bold variant="h6" color={Colors.primary}>
+                                Add your favorite movies
+                            </Typography>
+                            <Autocomplete
+                                multiple
+                                id="movie-search"
+                                options={top100Films}
+                                getOptionLabel={(option) => option.title}
+                              //  filterSelectedOptions
+                                renderInput={(params) => (
+                                    <InputField
+                                        {...params}
+                                        label="What movies have you enjoyed?"
+                                    />
+                                )}
+                            />
+                            <Typography bold variant="paragraph" color={Colors.red}>
+                                5 searches left. Upgrade for more.
+                            </Typography>
+                            <Button>
+                                Search
+                            </Button>
                         </Stack>
+                    </ContentBlock>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                    <Stack sx={{ p: 3 }}>
+                        <ContentBlock sx={{ p: 2 }}>
+                            <Tabs
+                                tabs={["New", "Watchlist"]}
+                                activeTab={activeTab}
+                                handleTabChange={handleChange}
+                            />
+                            <TabPanel value={activeTab} index={0}>
+                                <NewMovie />
+                            </TabPanel>
+                            <TabPanel value={activeTab} index={1}>
+                                <Watchlist />
+                            </TabPanel>
+                        </ContentBlock>
                     </Stack>
-
-                    <Stack direction="row" justifyContent="center">
-                        {loading ? (
-                            <CircularProgress />
-                        ) : (
-                            <Stack sx={{ my: 2, px: 10, width: "50%" }}>
-                                <Typography variant="h6" align="center">
-                                    {data.data}
-                                </Typography>
-                            </Stack>
-                        )}
-                    </Stack>
-                </Container>
-
-                <Divider sx={{ width: "50%", alignSelf: "center", pb: 3 }} />
-
-                <Stack sx={{ py: 5 }}>
-                    <Typography variant="h6" align="center">
-                        Built by{""}
-                        <a href="https://www.linkedin.com/in/masibonge-masinga-a4282a10b/">
-                            Masi
-                        </a>
-                    </Typography>
-                </Stack>
-            </Stack>
+                </Grid>
+            </Grid>
         </>
     )
 }
