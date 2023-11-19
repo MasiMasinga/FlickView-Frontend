@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 // Mui
 import Stack from "@mui/material/Stack";
@@ -8,6 +8,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 // Helmet
 import { Helmet } from "react-helmet-async";
+
+// Context
+import { DashboardContext } from "./context/DashboardContext";
 
 // Components
 import Typography from '../../common/components/Typography'
@@ -21,6 +24,7 @@ import Tabs from "../../common/components/Tabs";
 import TabPanel from "../../common/components/TabPanel";
 import Watchlist from "./containers/Watchlist";
 import NewMovie from "./containers/NewMovie";
+
 
 const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -150,9 +154,10 @@ const top100Films = [
 ];
 
 const Dashboard = () => {
+    const { movieSearch, isLoadingMovieSearch } = useContext(DashboardContext);
     const [activeTab, setActiveTab] = useState(0);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (_event, newValue) => {
         setActiveTab(newValue);
     };
 
@@ -179,9 +184,10 @@ const Dashboard = () => {
                             <Autocomplete
                                 multiple
                                 id="movie-search"
+                                loading={isLoadingMovieSearch}
+                                loadingText="Searching for movies..."
                                 options={top100Films}
                                 getOptionLabel={(option) => option.title}
-                              //  filterSelectedOptions
                                 renderInput={(params) => (
                                     <InputField
                                         {...params}

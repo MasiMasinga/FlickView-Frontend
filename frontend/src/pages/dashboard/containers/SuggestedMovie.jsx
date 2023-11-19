@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton'
 
 // Mui Icons
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded'
 import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
@@ -29,7 +30,8 @@ const SuggestedMovie = ({
         description,
         likes,
         trailer
-    }
+    },
+    watchlist
 }) => {
     return (
         <ContentBlock sx={{ p: 3 }}>
@@ -48,7 +50,14 @@ const SuggestedMovie = ({
                             <Typography bold variant="paragraph" color={Colors.primary}>
                                 {movieName}
                             </Typography>
-                            <BookmarkRoundedIcon />
+                            {
+                                watchlist ?
+                                <BookmarkRoundedIcon />
+
+                                    :
+                                    <BookmarkBorderRoundedIcon />
+
+                            }
                         </Stack>
                         <Typography variant="paragraph" color={Colors.primary}>
                             {(year)}
