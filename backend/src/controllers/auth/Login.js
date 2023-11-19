@@ -3,7 +3,11 @@ const helper = require("../../utils/helper");
 
 const Login = async (req, res) => {
     try {
-        
+
+        let data = {
+            email: req.body.email,
+            password: req.body.password,
+        }
 
         const user = authService.Login(data);
 

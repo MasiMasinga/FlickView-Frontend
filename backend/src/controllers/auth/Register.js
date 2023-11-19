@@ -3,7 +3,13 @@ const helper = require("../../utils/helper");
 
 const Register = async (req, res) => {
     try {
-        
+
+        let data = {
+            first_name: req.body.first_name,
+            email: req.body.email,
+            password: req.body.password,
+            confirm_password: req.body.confirm_password,
+        }
 
         const user = authService.Register(data);
 
