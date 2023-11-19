@@ -7,6 +7,24 @@ export const searchForMovie = async (data) => {
     if (!isBrowser) return false;
 
     return await api
+        .get(`/login/`, data)
+        .then(function (response) {
+            if (response.status === 200) {
+                return {
+                    status: true,
+                    data: response.data,
+                };
+            }
+        })
+        .catch(function (error) {
+            return handleError(error);
+        });
+};
+
+export const saveToWatchList = async (data) => {
+    if (!isBrowser) return false;
+
+    return await api
         .post(`/login/`, data)
         .then(function (response) {
             if (response.status === 200) {
@@ -21,8 +39,7 @@ export const searchForMovie = async (data) => {
         });
 };
 
-
-export const saveToWatchList = async (data) => {
+export const removeFromWatchList = async (data) => {
     if (!isBrowser) return false;
 
     return await api
@@ -61,6 +78,7 @@ export const generateSuggestions = async (data) => {
 const MovieService = {
     searchForMovie,
     saveToWatchList,
+    removeFromWatchList,
     generateSuggestions
 };
 

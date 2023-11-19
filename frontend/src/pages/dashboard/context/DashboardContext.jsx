@@ -1,30 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useState, useEffect, useContext, createContext } from "react";
 
-// Mui
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import Autocomplete from '@mui/material/Autocomplete';
-
-// Helmet
-import { Helmet } from "react-helmet-async";
+// Movie Service
+import MovieService from "../../../services/movie/movie.service";
 
 // Context
-import { DashboardContext } from "./context/DashboardContext";
-
-// Components
-import Typography from '../../common/components/Typography'
-import Button from "../../common/components/Button";
-import ContentBlock from '../../common/components/ContentBlock'
-import InputField from '../../common/components/InputField'
-
-// Utils
-import { Colors } from "../../common/utils/constants";
-import Tabs from "../../common/components/Tabs";
-import TabPanel from "../../common/components/TabPanel";
-import Watchlist from "./containers/Watchlist";
-import NewMovie from "./containers/NewMovie";
-
+import { StateContext } from "../../../common/context/StateContext";
 
 const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -153,77 +133,58 @@ const top100Films = [
     { title: 'Monty Python and the Holy Grail', year: 1975 },
 ];
 
-const Dashboard = () => {
-    const { movieSearch, isLoadingMovieSearch } = useContext(DashboardContext);
-    const [activeTab, setActiveTab] = useState(0);
+export const DashboardContext = createContext();
 
-    const handleChange = (_event, newValue) => {
-        setActiveTab(newValue);
+export const DashboardProvider = ({ children }) => {
+    const { setNotificationMessage } = useContext(StateContext);
+    const [dataLoading, setDataLoading] = useState(false);
+    const [isLoadingMovieSearch, setIsLoadingMovieSearch] = useState(true);
+    const [movieSearch, setMovieSearch] = useState([])
+    const [watchlist, setWatchlist] = useState([])
+    const [searchCredits, setSearchCredits] = useState(0)
+
+    useEffect(() => {
+        handleGetSearchCredits();
+        // handleMovieSearch();
+    }, []);
+
+    const handleMovieSearch = async () => {
+        setIsLoadingMovieSearch(true);
+        const { status, data } = await MovieService.searchForMovie();
+        if (status) {
+            setMovieSearch(data);
+            setIsLoadingMovieSearch(false);
+        } else {
+            setNotificationMessage({
+                message: "There was an error searching for your movie",
+                severity: "error",
+            });
+            setIsLoadingMovieSearch(false);
+        }
     };
 
-    return (
-        <>
-            <Helmet>
-                <title>Stream AI-ght</title>
-                <link
-                    rel="canonical"
-                    href="https://http://streamaight.s3-website-us-east-1.amazonaws.com/"
-                />
-            </Helmet>
-            <Grid container >
-                <Grid item xs={12} md={4}>
-                    <ContentBlock>
-                        <Stack spacing={1} sx={{ p: 3 }}>
-                            <Typography bold variant="subheader" color={Colors.primary}>
-                                Search for your next movie here
-                            </Typography>
-                            <Divider />
-                            <Typography bold variant="h6" color={Colors.primary}>
-                                Add your favorite movies
-                            </Typography>
-                            <Autocomplete
-                                multiple
-                                id="movie-search"
-                                loading={isLoadingMovieSearch}
-                                loadingText="Searching for movies..."
-                                options={top100Films}
-                                getOptionLabel={(option) => option.title}
-                                renderInput={(params) => (
-                                    <InputField
-                                        {...params}
-                                        label="What movies have you enjoyed?"
-                                    />
-                                )}
-                            />
-                            <Typography bold variant="paragraph" color={Colors.red}>
-                                5 searches left. Upgrade for more.
-                            </Typography>
-                            <Button>
-                                Search
-                            </Button>
-                        </Stack>
-                    </ContentBlock>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                    <Stack sx={{ p: 3 }}>
-                        <ContentBlock sx={{ p: 2 }}>
-                            <Tabs
-                                tabs={["New", "Watchlist"]}
-                                activeTab={activeTab}
-                                handleTabChange={handleChange}
-                            />
-                            <TabPanel value={activeTab} index={0}>
-                                <NewMovie />
-                            </TabPanel>
-                            <TabPanel value={activeTab} index={1}>
-                                <Watchlist />
-                            </TabPanel>
-                        </ContentBlock>
-                    </Stack>
-                </Grid>
-            </Grid>
-        </>
-    )
-}
+    const handleAddMovieToWatchlist = async () => {};
 
-export default Dashboard
+    const handleRemoveMovieFromWatchlist = async () => {};
+
+    const handleGetSearchCredits = async () => { };
+
+    const handleUpgradeToPro = async () => { };
+
+    let value = {
+        dataLoading,
+        isLoadingMovieSearch,
+        movieSearch,
+        watchlist,
+        searchCredits,
+        handleUpgradeToPro,
+        handleAddMovieToWatchlist,
+        handleRemoveMovieFromWatchlist,
+    }
+
+    return (
+        <DashboardContext.Provider value={value}>
+            {children}
+        </DashboardContext.Provider>
+    );
+};

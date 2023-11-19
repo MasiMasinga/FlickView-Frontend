@@ -3,6 +3,9 @@ import React, { Suspense, lazy } from "react";
 // React Router Dom
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+// Context
+import { DashboardProvider } from "../pages/dashboard/context/DashboardContext";
+
 // Pages
 const AsyncPageNotFound = lazy(() => import("../common/router/PageNotFound"));
 const AsyncDashboardLayout = lazy(() => import("../common/layout/DashboardLayout"));
@@ -32,7 +35,9 @@ const PageRoutes = () => {
                         path="/dashboard"
                         element={
                             <Suspense fallback={<Loader fullscreen={true} />}>
-                                <AsyncDashboard />
+                                <DashboardProvider>
+                                    <AsyncDashboard />
+                                </DashboardProvider>
                             </Suspense>
                         }
                     />
