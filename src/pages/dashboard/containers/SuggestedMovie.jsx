@@ -17,21 +17,17 @@ import Typography from '../../../common/components/Typography'
 
 // Utils
 import { Colors } from '../../../common/utils/constants';
-
-// Images
-import Movie from '../../../assets/images/tWsNYbrqy1p1w6K9zRk0mSchztT.jpg'
-
+import { truncate } from '../../../common/utils/helpers'
 
 const SuggestedMovie = ({
     movie: {
-        movieName,
-        image,
-        year,
-        description,
-        likes,
-        trailer
+        original_title,
+        poster_path,
+        release_date,
+        overview,
+        popularity
     },
-    watchlist
+    watchlist,
 }) => {
     return (
         <ContentBlock sx={{ p: 3 }}>
@@ -40,30 +36,29 @@ const SuggestedMovie = ({
                     <Stack>
                         <CardMedia
                             component="img"
-                            image={image}
+                            image={import.meta.env.VITE_APP_IMAGE_URL + poster_path}
                             alt="Movie"
-                            sx={{ width: '100px', height: '100%' }}
+                            sx={{ width: '100px', height: '100%', objectFit: 'contain' }}
                         />
                     </Stack>
                     <Stack>
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
                             <Typography bold variant="paragraph" color={Colors.primary}>
-                                {movieName}
+                                {original_title}
                             </Typography>
                             {
                                 watchlist ?
-                                <BookmarkRoundedIcon />
-
+                                    <BookmarkRoundedIcon />
                                     :
                                     <BookmarkBorderRoundedIcon />
 
                             }
                         </Stack>
                         <Typography variant="paragraph" color={Colors.primary}>
-                            {(year)}
+                            {release_date}
                         </Typography>
                         <Typography variant="paragraph" mt>
-                            {description}
+                            {truncate(overview, 140)}
                         </Typography>
                     </Stack>
                 </Stack>
@@ -71,7 +66,7 @@ const SuggestedMovie = ({
                     <Stack direction="row" spacing={1}>
                         <ThumbUpRoundedIcon fontSize='12px' sx={{ color: Colors.greyDark }} />
                         <Typography variant="subtitle">
-                            {likes}% Liked this movie
+                            {popularity}% Liked this movie
                         </Typography>
                     </Stack>
                     <Stack direction="row" spacing={1}>

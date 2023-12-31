@@ -3,29 +3,11 @@ import { handleError } from "../utils";
 
 const isBrowser = typeof window !== `undefined`;
 
-export const searchForMovie = async (data) => {
-    if (!isBrowser) return false;
-
-    return await api
-        .get(`/login/`, data)
-        .then(function (response) {
-            if (response.status === 200) {
-                return {
-                    status: true,
-                    data: response.data,
-                };
-            }
-        })
-        .catch(function (error) {
-            return handleError(error);
-        });
-};
-
 export const saveToWatchList = async (data) => {
     if (!isBrowser) return false;
 
     return await api
-        .post(`/login/`, data)
+        .post(`/watchlist/`, data)
         .then(function (response) {
             if (response.status === 200) {
                 return {
@@ -43,7 +25,7 @@ export const removeFromWatchList = async (data) => {
     if (!isBrowser) return false;
 
     return await api
-        .post(`/login/`, data)
+        .delete(`/watchlist/`, data)
         .then(function (response) {
             if (response.status === 200) {
                 return {
@@ -57,16 +39,34 @@ export const removeFromWatchList = async (data) => {
         });
 };
 
+export const searchForMovie = async (query) => {
+    if (!isBrowser) return false;
+
+    return await api
+        .post(`/movie/search`, query)
+        .then(function (response) {
+            if (response.status === 200) {
+                return {
+                    status: true,
+                    data: response.data.movie,
+                };
+            }
+        })
+        .catch(function (error) {
+            return handleError(error);
+        });
+};
+
 export const generateSuggestions = async (data) => {
     if (!isBrowser) return false;
 
     return await api
-        .post(`/logout/`, data)
+        .post(`/movie/suggestion`, data)
         .then(function (response) {
-            if (response.status === 201) {
+            if (response.status === 200) {
                 return {
                     status: true,
-                    data: response.data,
+                    data: response.data.suggestion,
                 };
             }
         })

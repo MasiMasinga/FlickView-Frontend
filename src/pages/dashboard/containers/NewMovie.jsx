@@ -14,7 +14,10 @@ import MovieSuggestionNotice from '../components/MovieSuggestionNotice'
 import Loader from '../../../common/components/Loader'
 
 const NewMovie = () => {
-    const { dataLoading, movieSearch } = useContext(DashboardContext)
+    const {
+        dataLoading,
+        recommendedMovies,
+    } = useContext(DashboardContext)
 
     return (
         <ContentBlock
@@ -23,15 +26,15 @@ const NewMovie = () => {
                 bgcolor: '#E2E8F0',
                 display: 'flex',
                 borderRadius: 0,
-                height: movieSearch.length > 0 ? '100%' : 'calc(100vh - 170px)'
+                height: recommendedMovies.length > 0 ? '100%' : 'calc(100vh - 170px)'
             }}
         >
             <Grid container spacing={2}>
                 {
                     dataLoading ? (
                         <Loader />
-                    ) : movieSearch.length > 0 ? (
-                        movieSearch.map((movie, index) => (
+                    ) : recommendedMovies.length > 0 ? (
+                        recommendedMovies.map((movie, index) => (
                             <Grid item xs={12} md={6} key={index}>
                                 <SuggestedMovie movie={movie} />
                             </Grid>

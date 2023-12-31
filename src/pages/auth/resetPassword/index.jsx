@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+// React Router Dom
+import { useParams } from 'react-router-dom';
 
 // Mui
 import Stack from '@mui/material/Stack';
@@ -22,6 +25,7 @@ import { ValidationMessages } from '../../../common/utils/constants';
 
 
 const ResetPassword = () => {
+    const { token } = useParams();
     const { resetPassword, loading } = useAuth();
     const { control, handleSubmit } = useForm({
         defaultValues: {
